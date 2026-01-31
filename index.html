@@ -13,7 +13,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Comic Sans MS', cursive;
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
     overflow: hidden;
 }
 
@@ -30,12 +30,12 @@ h1 {
 
 .buttons {
     position: relative;
-    height: 120px;
+    height: 140px;
 }
 
 button {
     font-size: 1.5em;
-    padding: 15px 35px;
+    padding: 15px 40px;
     border-radius: 40px;
     border: none;
     cursor: pointer;
@@ -46,39 +46,55 @@ button {
     background-color: #ff5fa2;
     color: white;
     left: 50%;
-    transform: translateX(-120%);
+    transform: translateX(-130%);
 }
 
 #no {
     background-color: white;
     color: #ff5fa2;
     left: 50%;
-    transform: translateX(20%);
+    transform: translateX(30%);
 }
 
-/* cuoricini fluttuanti */
-.heart {
+/* glitter */
+.glitter {
     position: absolute;
-    color: red;
-    font-size: 14px;
-    animation: float 6s linear infinite;
+    width: 6px;
+    height: 6px;
+    background: pink;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: glitterFall 5s linear forwards;
 }
 
-@keyframes float {
-    from { transform: translateY(100vh); opacity: 1; }
-    to { transform: translateY(-10vh); opacity: 0; }
+@keyframes glitterFall {
+    from { transform: translateY(-10vh); }
+    to { transform: translateY(110vh); }
 }
 
-/* fuochi d'artificio di cuori */
+/* fuochi */
 .firework {
     position: absolute;
-    font-size: 22px;
-    animation: explode 1.2s ease-out forwards;
+    font-size: 24px;
+    animation: explode 1.3s ease-out forwards;
 }
 
 @keyframes explode {
     from { transform: scale(0.2); opacity: 1; }
     to { transform: scale(3); opacity: 0; }
+}
+
+/* scritta finale */
+.final {
+    position: absolute;
+    font-size: 4em;
+    color: #ff2f92;
+    animation: pop 1s ease-out forwards;
+}
+
+@keyframes pop {
+    from { transform: scale(0.2); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
 }
 </style>
 </head>
@@ -97,9 +113,8 @@ button {
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const container = document.getElementById("container");
-const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-// sposta il NO
+// sposta NO
 function moveNoButton() {
     const x = Math.random() * (window.innerWidth - 120);
     const y = Math.random() * (window.innerHeight - 60);
@@ -107,53 +122,52 @@ function moveNoButton() {
     noBtn.style.top = y + "px";
 }
 
-// PC: il NO scappa dal cursore
-if (!isMobile) {
-    document.addEventListener("mousemove", e => {
-        const rect = noBtn.getBoundingClientRect();
-        const dist = Math.hypot(
-            e.clientX - (rect.left + rect.width / 2),
-            e.clientY - (rect.top + rect.height / 2)
-        );
-        if (dist < 120) moveNoButton();
-    });
-} 
-// Mobile: il NO sparisce e riappare
-else {
-    noBtn.addEventListener("click", () => {
-        noBtn.style.display = "none";
-        setTimeout(() => {
-            moveNoButton();
-            noBtn.style.display = "block";
-        }, 300);
-    });
-}
+// PC: scappa dal cursore
+document.addEventListener("mousemove", e => {
+    const rect = noBtn.getBoundingClientRect();
+    const dist = Math.hypot(
+        e.clientX - (rect.left + rect.width / 2),
+        e.clientY - (rect.top + rect.height / 2)
+    );
+    if (dist < 120) moveNoButton();
+});
 
-// SI → esplosione di cuori
+// Mobile: scappa al tocco
+noBtn.addEventListener("touchstart", moveNoButton);
+
+// SI → APOCALISSE ROSA
 yesBtn.addEventListener("click", () => {
     container.style.display = "none";
 
-    for (let i = 0; i < 30; i++) {
-        const fw = document.createElement("div");
-        fw.className = "firework";
-        fw.innerHTML = "❤️";
-        fw.style.left = Math.random() * window.innerWidth + "px";
-        fw.style.top = Math.random() * window.innerHeight + "px";
-        document.body.appendChild(fw);
-        setTimeout(() => fw.remove(), 1200);
-    }
-});
+    // scritta finale
+    const finalText = document.createElement("div");
+    finalText.className = "final";
+    finalText.innerHTML = "eh direi!";
+    document.body.appendChild(finalText);
 
-// cuoricini continui
-setInterval(() => {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random() * window.innerWidth + "px";
-    heart.style.fontSize = Math.random() * 10 + 10 + "px";
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 6000);
-}, 300);
+    // tanti fuochi ripetuti
+    let fireworksInterval = setInterval(() => {
+        for (let i = 0; i < 25; i++) {
+            const fw = document.createElement("div");
+            fw.className = "firework";
+            fw.innerHTML = "❤️";
+            fw.style.left = Math.random() * window.innerWidth + "px";
+            fw.style.top = Math.random() * window.innerHeight + "px";
+            document.body.appendChild(fw);
+            setTimeout(() => fw.remove(), 1300);
+        }
+    }, 400);
+
+    // glitter infinito
+    setInterval(() => {
+        const g = document.createElement("div");
+        g.className = "glitter";
+        g.style.left = Math.random() * window.innerWidth + "px";
+        g.style.animationDuration = Math.random() * 3 + 3 + "s";
+        document.body.appendChild(g);
+        setTimeout(() => g.remove(), 5000);
+    }, 80);
+});
 </script>
 
 </body>
