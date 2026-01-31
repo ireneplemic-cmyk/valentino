@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentino 💖</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(180deg, #ffd1e8, #ffb6d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Comic Sans MS', cursive;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    z-index: 2;
+}
+
+h1 {
+    color: #ff2f92;
+    font-size: 3em;
+    margin-bottom: 40px;
+}
+
+.buttons {
+    position: relative;
+    height: 120px;
+}
+
+button {
+    font-size: 1.5em;
+    padding: 15px 35px;
+    border-radius: 40px;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+}
+
+#yes {
+    background-color: #ff5fa2;
+    color: white;
+    left: 50%;
+    transform: translateX(-120%);
+}
+
+#no {
+    background-color: white;
+    color: #ff5fa2;
+    left: 50%;
+    transform: translateX(20%);
+}
+
+/* cuoricini fluttuanti */
+.heart {
+    position: absolute;
+    color: red;
+    font-size: 14px;
+    animation: float 6s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); opacity: 1; }
+    to { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* fuochi d'artificio di cuori */
+.firework {
+    position: absolute;
+    font-size: 22px;
+    animation: explode 1.2s ease-out forwards;
+}
+
+@keyframes explode {
+    from { transform: scale(0.2); opacity: 1; }
+    to { transform: scale(3); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="container">
+    <h1>Lorenzello, vuoi essere il mio valentino? 💘</h1>
+    <div class="buttons">
+        <button id="yes">SI</button>
+        <button id="no">NO</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+const container = document.getElementById("container");
+const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+// sposta il NO
+function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// PC: il NO scappa dal cursore
+if (!isMobile) {
+    document.addEventListener("mousemove", e => {
+        const rect = noBtn.getBoundingClientRect();
+        const dist = Math.hypot(
+            e.clientX - (rect.left + rect.width / 2),
+            e.clientY - (rect.top + rect.height / 2)
+        );
+        if (dist < 120) moveNoButton();
+    });
+} 
+// Mobile: il NO sparisce e riappare
+else {
+    noBtn.addEventListener("click", () => {
+        noBtn.style.display = "none";
+        setTimeout(() => {
+            moveNoButton();
+            noBtn.style.display = "block";
+        }, 300);
+    });
+}
+
+// SI → esplosione di cuori
+yesBtn.addEventListener("click", () => {
+    container.style.display = "none";
+
+    for (let i = 0; i < 30; i++) {
+        const fw = document.createElement("div");
+        fw.className = "firework";
+        fw.innerHTML = "❤️";
+        fw.style.left = Math.random() * window.innerWidth + "px";
+        fw.style.top = Math.random() * window.innerHeight + "px";
+        document.body.appendChild(fw);
+        setTimeout(() => fw.remove(), 1200);
+    }
+});
+
+// cuoricini continui
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.fontSize = Math.random() * 10 + 10 + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+}, 300);
+</script>
+
+</body>
+</html>
