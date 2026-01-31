@@ -13,7 +13,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
 }
 
@@ -30,7 +30,7 @@ h1 {
 
 .buttons {
     position: relative;
-    height: 140px;
+    height: 160px;
 }
 
 button {
@@ -46,50 +46,33 @@ button {
     background-color: #ff5fa2;
     color: white;
     left: 50%;
-    transform: translateX(-130%);
+    transform: translateX(-140%);
 }
 
 #no {
     background-color: white;
     color: #ff5fa2;
     left: 50%;
-    transform: translateX(30%);
+    transform: translateX(40%);
 }
 
-/* glitter */
-.glitter {
+/* effetti */
+.effect {
     position: absolute;
-    width: 6px;
-    height: 6px;
-    background: pink;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: glitterFall 5s linear forwards;
-}
-
-@keyframes glitterFall {
-    from { transform: translateY(-10vh); }
-    to { transform: translateY(110vh); }
-}
-
-/* fuochi */
-.firework {
-    position: absolute;
-    font-size: 24px;
-    animation: explode 1.3s ease-out forwards;
+    font-size: 26px;
+    animation: explode 1.4s ease-out forwards;
 }
 
 @keyframes explode {
-    from { transform: scale(0.2); opacity: 1; }
+    from { transform: scale(0.3); opacity: 1; }
     to { transform: scale(3); opacity: 0; }
 }
 
-/* scritta finale */
 .final {
     position: absolute;
     font-size: 4em;
     color: #ff2f92;
-    animation: pop 1s ease-out forwards;
+    animation: pop 0.8s ease-out forwards;
 }
 
 @keyframes pop {
@@ -114,10 +97,10 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const container = document.getElementById("container");
 
-// sposta NO
+// sposta NO (sempre visibile)
 function moveNoButton() {
-    const x = Math.random() * (window.innerWidth - 120);
-    const y = Math.random() * (window.innerHeight - 60);
+    const x = Math.random() * (window.innerWidth - 140);
+    const y = Math.random() * (window.innerHeight - 80);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
 }
@@ -129,44 +112,37 @@ document.addEventListener("mousemove", e => {
         e.clientX - (rect.left + rect.width / 2),
         e.clientY - (rect.top + rect.height / 2)
     );
-    if (dist < 120) moveNoButton();
+    if (dist < 140) moveNoButton();
 });
 
-// Mobile: scappa al tocco
-noBtn.addEventListener("touchstart", moveNoButton);
+// Mobile: scappa al tocco (NON scompare)
+noBtn.addEventListener("touchstart", e => {
+    e.preventDefault();
+    moveNoButton();
+});
 
-// SI → APOCALISSE ROSA
+// SI → APOCALISSE
 yesBtn.addEventListener("click", () => {
     container.style.display = "none";
 
-    // scritta finale
     const finalText = document.createElement("div");
     finalText.className = "final";
-    finalText.innerHTML = "eh direi!";
+    finalText.innerHTML = "e menomale!";
     document.body.appendChild(finalText);
 
-    // tanti fuochi ripetuti
-    let fireworksInterval = setInterval(() => {
-        for (let i = 0; i < 25; i++) {
-            const fw = document.createElement("div");
-            fw.className = "firework";
-            fw.innerHTML = "❤️";
-            fw.style.left = Math.random() * window.innerWidth + "px";
-            fw.style.top = Math.random() * window.innerHeight + "px";
-            document.body.appendChild(fw);
-            setTimeout(() => fw.remove(), 1300);
-        }
-    }, 400);
+    const symbols = ["❤️","🎆","🎉","⭐","⚡"];
 
-    // glitter infinito
     setInterval(() => {
-        const g = document.createElement("div");
-        g.className = "glitter";
-        g.style.left = Math.random() * window.innerWidth + "px";
-        g.style.animationDuration = Math.random() * 3 + 3 + "s";
-        document.body.appendChild(g);
-        setTimeout(() => g.remove(), 5000);
-    }, 80);
+        for (let i = 0; i < 35; i++) {
+            const el = document.createElement("div");
+            el.className = "effect";
+            el.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
+            el.style.left = Math.random() * window.innerWidth + "px";
+            el.style.top = Math.random() * window.innerHeight + "px";
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 1400);
+        }
+    }, 350);
 });
 </script>
 
