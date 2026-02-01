@@ -1,164 +1,186 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Valentino</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Valentino 💗</title>
 
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: linear-gradient(180deg, #ffd1e8, #ffb6d9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
-  overflow: hidden;
-}
+  <!-- Font carino -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-.container {
-  text-align: center;
-}
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(180deg, #ffd6e8, #ffeaf3);
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      color: #d63384;
+      text-align: center;
+    }
 
-h1 {
-  color: #e60073;
-  font-size: 2.5em;
-  margin-bottom: 30px;
-}
+    .page {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-button {
-  font-size: 1.3em;
-  padding: 15px 40px;
-  border-radius: 40px;
-  border: none;
-  cursor: pointer;
-  position: absolute;
-}
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 40px;
+    }
 
-#yes {
-  background: #ff4da6;
-  color: white;
-  left: 35%;
-  top: 60%;
-}
+    .buttons {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
 
-#no {
-  background: white;
-  color: #ff4da6;
-  left: 55%;
-  top: 60%;
-}
+    button {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
 
-/* adattamento mobile */
-@media (max-width: 600px) {
-  #yes { left: 20%; top: 65%; }
-  #no  { left: 55%; top: 65%; }
-}
+    #yes {
+      background-color: #ff69b4;
+      color: white;
+    }
 
-/* seconda schermata */
-.final {
-  position: absolute;
-  font-size: 3.5em;
-  color: #e60073;
-  animation: zoomIn 3s ease-out forwards;
-}
+    #no {
+      background-color: #fff;
+      color: #ff69b4;
+      position: absolute;
+    }
 
-@keyframes zoomIn {
-  from { transform: scale(0.1); opacity: 0; }
-  to   { transform: scale(1); opacity: 1; }
-}
+    /* Seconda pagina */
+    #second-page {
+      display: none;
+    }
 
-.subtext {
-  position: absolute;
-  top: 65%;
-  font-size: 1.6em;
-  color: #ff2f92;
-  opacity: 0;
-  animation: fadeIn 1s ease-out forwards;
-}
+    #final-text {
+      font-size: 1.8rem;
+      opacity: 0;
+      transform: scale(0.2);
+      animation: zoomIn 3s forwards;
+    }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
-}
+    @keyframes zoomIn {
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
 
-/* effetti */
-.effect {
-  position: absolute;
-  font-size: 26px;
-  animation: boom 1.2s forwards;
-}
+    #date-text {
+      margin-top: 25px;
+      font-size: 1.1rem;
+      opacity: 0;
+    }
 
-@keyframes boom {
-  from { transform: scale(0.3); opacity: 1; }
-  to   { transform: scale(3); opacity: 0; }
-}
-</style>
+    /* Particelle */
+    .particle {
+      position: absolute;
+      font-size: 20px;
+      animation: explode 3s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes explode {
+      from {
+        transform: translate(0,0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translate(var(--x), var(--y)) scale(0.3);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      #final-text {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container" id="container">
-  <h1>Lorenzello, vuoi essere il mio valentino? 💘</h1>
-  <button id="yes">SI</button>
-  <button id="no">NO</button>
-</div>
+  <!-- PAGINA 1 -->
+  <div class="page" id="first-page">
+    <h1>Lorenzello,<br>vuoi essere il mio Valentino? 💗</h1>
+    <div class="buttons">
+      <button id="yes">SI</button>
+      <button id="no">NO</button>
+    </div>
+  </div>
 
-<script>
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
-const container = document.getElementById("container");
+  <!-- PAGINA 2 -->
+  <div class="page" id="second-page">
+    <div id="final-text">… e menomaleeeee 💖</div>
+    <div id="date-text">allora ci vediamo il 13/02/26 a Roma/Milano/Vicenzola!</div>
+  </div>
 
-// NO scappa SEMPRE
-function moveNo() {
-  const x = Math.random() * (window.innerWidth - 120);
-  const y = Math.random() * (window.innerHeight - 60);
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-}
+  <script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const firstPage = document.getElementById("first-page");
+    const secondPage = document.getElementById("second-page");
+    const dateText = document.getElementById("date-text");
 
-document.addEventListener("mousemove", e => {
-  const r = noBtn.getBoundingClientRect();
-  const d = Math.hypot(
-    e.clientX - (r.left + r.width / 2),
-    e.clientY - (r.top + r.height / 2)
-  );
-  if (d < 120) moveNo();
-});
-
-noBtn.addEventListener("touchstart", e => {
-  e.preventDefault();
-  moveNo();
-});
-
-// SI → SECONDA PAGINA
-yesBtn.addEventListener("click", () => {
-  container.innerHTML = `<div class="final">... e menomaleeeee</div>`;
-
-  const symbols = ["🎆","🎉","⭐","⚡","❤️"];
-
-  // caos continuo
-  setInterval(() => {
-    for (let i = 0; i < 35; i++) {
-      const el = document.createElement("div");
-      el.className = "effect";
-      el.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
-      el.style.left = Math.random()*window.innerWidth + "px";
-      el.style.top = Math.random()*window.innerHeight + "px";
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 1200);
+    function moveNo() {
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 100);
+      noBtn.style.left = x + "px";
+      noBtn.style.top = y + "px";
     }
-  }, 300);
 
-  // testo dopo 4 secondi
-  setTimeout(() => {
-    const sub = document.createElement("div");
-    sub.className = "subtext";
-    sub.innerHTML = "allora ci vediamo il 13/02/26 a Roma/Milano/Vicenzola!";
-    document.body.appendChild(sub);
-  }, 4000);
-});
-</script>
+    // scappa SEMPRE
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNo();
+    });
+
+    yesBtn.addEventListener("click", () => {
+      firstPage.style.display = "none";
+      secondPage.style.display = "flex";
+      startChaos();
+
+      setTimeout(() => {
+        dateText.style.opacity = 1;
+      }, 4000);
+    });
+
+    function startChaos() {
+      const symbols = ["💖","💥","✨","🎉","💫","⭐","💘"];
+      for (let i = 0; i < 200; i++) {
+        const p = document.createElement("div");
+        p.className = "particle";
+        p.innerText = symbols[Math.floor(Math.random()*symbols.length)];
+        p.style.left = Math.random() * window.innerWidth + "px";
+        p.style.top = Math.random() * window.innerHeight + "px";
+        p.style.setProperty("--x", (Math.random()*600-300)+"px");
+        p.style.setProperty("--y", (Math.random()*600-300)+"px");
+        document.body.appendChild(p);
+        setTimeout(() => p.remove(), 3000);
+      }
+    }
+  </script>
 
 </body>
 </html>
