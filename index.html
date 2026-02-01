@@ -9,7 +9,7 @@
 body {
   margin: 0;
   height: 100vh;
-  background: pink;
+  background: linear-gradient(180deg, #ffd1e8, #ffb6d9);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -23,11 +23,12 @@ body {
 
 h1 {
   color: #e60073;
-  font-size: 3em;
+  font-size: 2.5em;
+  margin-bottom: 30px;
 }
 
 button {
-  font-size: 1.4em;
+  font-size: 1.3em;
   padding: 15px 40px;
   border-radius: 40px;
   border: none;
@@ -38,32 +39,59 @@ button {
 #yes {
   background: #ff4da6;
   color: white;
-  left: 40%;
-  top: 55%;
+  left: 35%;
+  top: 60%;
 }
 
 #no {
   background: white;
   color: #ff4da6;
   left: 55%;
-  top: 55%;
+  top: 60%;
+}
+
+/* adattamento mobile */
+@media (max-width: 600px) {
+  #yes { left: 20%; top: 65%; }
+  #no  { left: 55%; top: 65%; }
+}
+
+/* seconda schermata */
+.final {
+  position: absolute;
+  font-size: 3.5em;
+  color: #e60073;
+  animation: zoomIn 3s ease-out forwards;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.1); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.subtext {
+  position: absolute;
+  top: 65%;
+  font-size: 1.6em;
+  color: #ff2f92;
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
 }
 
 /* effetti */
 .effect {
   position: absolute;
-  font-size: 28px;
+  font-size: 26px;
   animation: boom 1.2s forwards;
 }
 
 @keyframes boom {
   from { transform: scale(0.3); opacity: 1; }
-  to { transform: scale(3); opacity: 0; }
-}
-
-.final {
-  font-size: 4em;
-  color: #e60073;
+  to   { transform: scale(3); opacity: 0; }
 }
 </style>
 </head>
@@ -81,6 +109,7 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const container = document.getElementById("container");
 
+// NO scappa SEMPRE
 function moveNo() {
   const x = Math.random() * (window.innerWidth - 120);
   const y = Math.random() * (window.innerHeight - 60);
@@ -88,7 +117,6 @@ function moveNo() {
   noBtn.style.top = y + "px";
 }
 
-// PC: scappa dal cursore
 document.addEventListener("mousemove", e => {
   const r = noBtn.getBoundingClientRect();
   const d = Math.hypot(
@@ -98,20 +126,20 @@ document.addEventListener("mousemove", e => {
   if (d < 120) moveNo();
 });
 
-// Mobile: scappa dal tocco
 noBtn.addEventListener("touchstart", e => {
   e.preventDefault();
   moveNo();
 });
 
-// SI → CAOS
+// SI → SECONDA PAGINA
 yesBtn.addEventListener("click", () => {
-  container.innerHTML = `<div class="final">e menomale!</div>`;
+  container.innerHTML = `<div class="final">... e menomaleeeee</div>`;
 
   const symbols = ["🎆","🎉","⭐","⚡","❤️"];
 
+  // caos continuo
   setInterval(() => {
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i < 35; i++) {
       const el = document.createElement("div");
       el.className = "effect";
       el.innerHTML = symbols[Math.floor(Math.random()*symbols.length)];
@@ -121,6 +149,14 @@ yesBtn.addEventListener("click", () => {
       setTimeout(() => el.remove(), 1200);
     }
   }, 300);
+
+  // testo dopo 4 secondi
+  setTimeout(() => {
+    const sub = document.createElement("div");
+    sub.className = "subtext";
+    sub.innerHTML = "allora ci vediamo il 13/02/26 a Roma/Milano/Vicenzola!";
+    document.body.appendChild(sub);
+  }, 4000);
 });
 </script>
 
