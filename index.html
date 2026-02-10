@@ -75,12 +75,28 @@ button {
 
 /* FRASE 13 */
 #date-text {
-  margin-top: 32px;
+  margin-top: 28px;
   font-size: 1.6rem;
   opacity: 0;
 }
 
-/* città pulsanti in sequenza */
+/* GATTINO */
+#kitty {
+  margin-top: 25px;
+  width: 220px;
+  border-radius: 25px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* FRASE FINALE */
+#love-text {
+  margin-top: 18px;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #c2185b;
+}
+
+/* città pulsanti */
 .city {
   font-weight: 600;
   display: inline-block;
@@ -118,6 +134,7 @@ button {
   h1 { font-size: 1.8rem; }
   #final-text { font-size: 1.8rem; }
   #date-text { font-size: 1.35rem; }
+  #kitty { width: 200px; }
 }
 </style>
 </head>
@@ -136,12 +153,17 @@ button {
 <!-- PAGINA 2 -->
 <div class="page" id="second-page">
   <div id="final-text">… e menomaleeeee</div>
+
   <div id="date-text">
     allora ci vediamo il 13/02/26 a
     <span class="city">Roma</span> /
     <span class="city">Milano</span> /
     <span class="city">Vicenzola</span>!
   </div>
+
+  <img id="kitty" src="https://placekitten.com/300/300" alt="gattino dolcissimo">
+
+  <div id="love-text">non vedo l’ora Valentino mio</div>
 </div>
 
 <script>
@@ -167,7 +189,7 @@ noBtn.addEventListener("touchmove", moveNo);
 /* CLICK SI */
 yesBtn.addEventListener("click", () => {
 
-  /* VIBRAZIONE */
+  /* VIBRAZIONE (iPhone) */
   if (navigator.vibrate) {
     navigator.vibrate([200, 100, 200, 100, 300]);
   }
