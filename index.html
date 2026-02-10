@@ -86,6 +86,7 @@ button {
   width: 220px;
   border-radius: 25px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  opacity: 0;
 }
 
 /* FRASE FINALE */
@@ -94,6 +95,7 @@ button {
   font-size: 1.1rem;
   font-style: italic;
   color: #c2185b;
+  opacity: 0;
 }
 
 /* città pulsanti */
@@ -161,7 +163,7 @@ button {
     <span class="city">Vicenzola</span>!
   </div>
 
-  <img id="kitty" src="https://placekitten.com/300/300" alt="gattino dolcissimo">
+  <img id="kitty" src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=400" alt="gattino dolcissimo">
 
   <div id="love-text">non vedo l’ora Valentino mio</div>
 </div>
@@ -172,6 +174,8 @@ const yesBtn = document.getElementById("yes");
 const firstPage = document.getElementById("first-page");
 const secondPage = document.getElementById("second-page");
 const dateText = document.getElementById("date-text");
+const kitty = document.getElementById("kitty");
+const loveText = document.getElementById("love-text");
 
 /* NO SCAPPA SEMPRE */
 function moveNo() {
@@ -189,18 +193,24 @@ noBtn.addEventListener("touchmove", moveNo);
 /* CLICK SI */
 yesBtn.addEventListener("click", () => {
 
-  /* VIBRAZIONE (iPhone) */
   if (navigator.vibrate) {
-    navigator.vibrate([200, 100, 200, 100, 300]);
+    navigator.vibrate([200,100,200,100,300]);
   }
 
   firstPage.style.display = "none";
   secondPage.style.display = "flex";
 
+  // dopo 4s → frase del 13 + caos
   setTimeout(() => {
     dateText.style.opacity = 1;
     startInfiniteChaos();
   }, 4000);
+
+  // dopo 6s → gattino + frase finale
+  setTimeout(() => {
+    kitty.style.opacity = 1;
+    loveText.style.opacity = 1;
+  }, 6000);
 });
 
 /* CAOS ETERNO */
