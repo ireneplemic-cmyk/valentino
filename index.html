@@ -97,9 +97,19 @@ button {
 #final-love {
   margin-top: 20px;
   font-style: italic;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   opacity: 0;
   min-height: 1.5em;
+}
+
+/* GATTINO */
+#kitty {
+  margin-top: 20px;
+  width: 200px;
+  height: auto;
+  border-radius: 15px;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
 }
 
 @keyframes zoomIn {
@@ -112,7 +122,7 @@ button {
   100%{transform:scale(1)}
 }
 
-/* GLITTER */
+/* GLITTER & FACCE DOLCI */
 .glitter {
   position: absolute;
   font-size: 18px;
@@ -126,7 +136,7 @@ button {
   to { transform: translateY(-120px); opacity:0; }
 }
 
-/* CAOS */
+/* CAOS ETERNO */
 .particle {
   position: absolute;
   font-size: 22px;
@@ -167,6 +177,7 @@ button {
     <span class="city">Milano</span> /
     <span class="city">Vicenzola</span>
   </div>
+  <img id="kitty" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Cat03.jpg/320px-Cat03.jpg" alt="Gattino dolce">
   <div id="final-love"></div>
 </div>
 
@@ -177,6 +188,7 @@ const firstPage = document.getElementById("first-page");
 const secondPage = document.getElementById("second-page");
 const dateText = document.getElementById("date-text");
 const finalLove = document.getElementById("final-love");
+const kitty = document.getElementById("kitty");
 
 /* NO SCAPPA */
 function moveNo(){
@@ -197,28 +209,32 @@ yesBtn.addEventListener("click", ()=>{
   secondPage.style.display="flex";
   startMenomaleGlitter();
 
+  // dopo 0s menomale appare
+  // dopo 4s frase 13 appare
   setTimeout(()=>{
     dateText.style.opacity=1;
 
+    // dopo 2s dal 13/02 frase finale + gattino
     setTimeout(()=>{
       typeFinalText("non vedo l'ora L <3");
+      kitty.style.opacity=1;
     },2000);
 
   },4000);
 });
 
-/* GLITTER MENOMALE */
+/* GLITTER E FACCE DOLCI */
 function startMenomaleGlitter(){
-  const symbols=["✨","💫","⭐"];
+  const symbols = ["💖","💕","💘","✨","💫","🥹","🩷"];
   setInterval(()=>{
     const g=document.createElement("div");
     g.className="glitter";
-    g.innerText=symbols[Math.floor(Math.random()*symbols.length)];
+    g.innerText = symbols[Math.floor(Math.random()*symbols.length)];
     g.style.left=(window.innerWidth/2-50+Math.random()*100)+"px";
     g.style.top="50%";
     document.body.appendChild(g);
     setTimeout(()=>g.remove(),4000);
-  },200);
+  },120);
 }
 
 /* TESTO LETTERA PER LETTERA + VIBRA */
@@ -239,7 +255,7 @@ function startInfiniteChaos(){
   setInterval(()=>{
     const p=document.createElement("div");
     p.className="particle";
-    p.innerText=symbols[Math.floor(Math.random()*symbols.length)];
+    p.innerText = symbols[Math.floor(Math.random()*symbols.length)];
     p.style.left=Math.random()*window.innerWidth+"px";
     p.style.top=window.innerHeight+"px";
     document.body.appendChild(p);
